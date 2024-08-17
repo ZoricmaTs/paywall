@@ -1,0 +1,3 @@
+export @font-face { font-family: 'SF PRO bold';  src: url('../fonts/SFPRODISPLAYBOLD.OTF'); }
+export @font-face { font-family: 'SF PRO regular';  src: url('../fonts/SFPRODISPLAYREGULAR.OTF'); }
+export @font-face { font-family: 'SF PRO medium';  src: url('../fonts/SFPRODISPLAYMEDIUM.OTF'); }
