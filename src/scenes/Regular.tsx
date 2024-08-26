@@ -5,59 +5,73 @@ import {
   View,
 } from 'react-native';
 import {Header} from '../widgets/header';
-import React from 'react';
-import {Burger, History} from '../assets/icons';
-import DropShadow from "react-native-drop-shadow";
+import React, {useRef} from 'react';
+import DropShadow from 'react-native-drop-shadow';
+import {faBars} from '@fortawesome/free-solid-svg-icons/faBars';
+import {faClockRotateLeft} from '@fortawesome/free-solid-svg-icons/faClockRotateLeft';
+import {Panel, PanelController} from '../widgets/Panel';
 
-function SettingsButton() {
-  return <Pressable onPress={() => console.log("onSettings")}>
-    <Burger/>
-  </Pressable>
+export function RegularScene({navigation}: {navigation: any}) {
+  const panelRef = useRef<PanelController>(null);
+
+  const openPanel = () => {
+    panelRef.current?.requestOpen();
+  };
+
+  const openTipsScene = () => {
+    panelRef.current?.requestClose();
+    navigation.navigate('Tips');
+  };
+
+  return <View style={{backgroundColor: '#FC92C0', flex: 1}}>
+      <ScrollView contentInsetAdjustmentBehavior="automatic">
+        <View style={{paddingLeft: 20, paddingRight: 20, paddingTop: 73, paddingBottom: 81}}>
+          <Header
+            textColor={'#000000'}
+            icons={{left: faBars, right: faClockRotateLeft}}
+            onPressLeft={openPanel}
+            onPressRight={() => navigation.navigate('History')}
+            title={'CUPID'}
+            subtitle={'Regular'}
+          />
+          <Text style={styles.text}>{'Upload a screenshot of a chat or bio'}</Text>
+          <View style={{marginBottom: 80, height: 350}}>
+            <View style={styles.screenFirst}>
+              <DropShadow style={styles.shadow}>
+                <Image source={require('../assets/screen1.png')} style={styles.image}/>
+              </DropShadow>
+            </View>
+            <View style={styles.screenSecond}>
+              <DropShadow style={styles.shadow}>
+                <Image source={require('../assets/screen2.png')} style={styles.image}/>
+              </DropShadow>
+            </View>
+            <View style={styles.screenThird}>
+              <DropShadow style={styles.shadow}>
+                <Image source={require('../assets/screen3.png')} style={styles.image}/>
+              </DropShadow>
+            </View>
+          </View>
+          <View style={styles.buttonWrapper}>
+            <Text style={styles.textIcon}>{'❤️'}</Text>
+            <Pressable onPress={() => navigation.navigate('Screenshot')} style={styles.button}>
+              <Text style={styles.buttonText}>{'Upload Screenshot'}</Text>
+            </Pressable>
+          </View>
+        </View>
+    </ScrollView>
+    <Panel ref={panelRef} openScene={openTipsScene}/>
+  </View>
 }
 
-function HistoryButton() {
-  return <Pressable onPress={() => console.log("onHistory")}>
-    <History/>
-  </Pressable>
-}
-
-export function RegularScene() {
-  return <ScrollView contentInsetAdjustmentBehavior="automatic" style={{backgroundColor: 'red'}}>
-    <View style={{paddingLeft: 20, paddingRight: 20, paddingTop: 73, paddingBottom: 81, backgroundColor: '#FC92C0', height: '100%'}}>
-      <Header
-        style={{color: '#000000'}}
-        left={SettingsButton()}
-        right={HistoryButton()}
-        title={'CUPID'}
-        subtitle={'Regular'}
-      />
-      <Text style={styles.text}>{'Upload a screenshot of a chat or bio'}</Text>
-      <View>
-        <View style={styles.screenFirst}>
-          <DropShadow style={styles.shadow}>
-            <Image source={require('../assets/screen1.png')} style={styles.image}/>
-          </DropShadow>
-        </View>
-        <View style={styles.screenSecond}>
-          <DropShadow style={styles.shadow}>
-            <Image source={require('../assets/screen2.png')} style={styles.image}/>
-          </DropShadow>
-        </View>
-        <View style={styles.screenThird}>
-          <DropShadow style={styles.shadow}>
-            <Image source={require('../assets/screen3.png')} style={styles.image}/>
-          </DropShadow>
-        </View>
-      </View>
-    </View>
-  </ScrollView>
-}
 const styles = StyleSheet.create({
   text: {
     fontFamily: 'SF Pro Display',
-    fontWeight: 'regular',
+    fontWeight: 'normal',
     fontSize: 28,
     lineHeight: 34,
+    textAlign: 'center',
+    marginBottom: 50,
   },
   screenFirst: {
     position: 'absolute',
@@ -108,5 +122,37 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     borderWidth: 2,
     borderColor: '#ffffff',
-  }
+  },
+  buttonWrapper: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  textIcon: {
+    fontFamily: 'SF Pro Display',
+    fontSize: 28,
+    backgroundColor: '#000000',
+    width: 70,
+    height: 70,
+    borderRadius: 35,
+    textAlign: 'center',
+    lineHeight: 70,
+    marginRight: 10,
+  },
+  button: {
+    backgroundColor: '#000000',
+    paddingTop: 19,
+    paddingBottom: 18,
+    paddingLeft: 39,
+    paddingRight: 39,
+    borderRadius: 35,
+    flex: 1,
+  },
+  buttonText: {
+    fontFamily: 'SF Pro Display',
+    fontWeight: 'normal',
+    fontSize: 28,
+    lineHeight: 34,
+    color: '#ffffff',
+    textAlign: 'center',
+  },
 });

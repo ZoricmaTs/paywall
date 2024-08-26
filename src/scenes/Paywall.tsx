@@ -3,17 +3,18 @@ import {
   View,
 } from 'react-native';
 import {Header} from '../widgets/header';
-import {BackButton} from '../widgets/BackButton';
+
 import React from 'react';
 import LinearGradient from 'react-native-linear-gradient';
 import {GradientText} from '../widgets/GradientText';
-import { Shadow } from 'react-native-shadow-2';
 import DropShadow from "react-native-drop-shadow";
+import {faChevronLeft} from '@fortawesome/free-solid-svg-icons/faChevronLeft';
 
 type PaywallItem = {
   icon: string,
   title: string,
 }
+
 function getItems(): PaywallItem[] {
   return [
     {
@@ -46,7 +47,7 @@ function getItems(): PaywallItem[] {
 export function PaywallScene({navigation}: {navigation: any}) {
   return <ScrollView contentInsetAdjustmentBehavior="automatic">
       <View style={{paddingLeft: 44, paddingRight: 44, paddingTop: 70, paddingBottom: 70, backgroundColor: '#040404', height: '100%'}}>
-      <Header left={<BackButton/>} style={{color: '#FC92C0'}}/>
+      <Header icons={{left: faChevronLeft}} textColor={'#ED217C'}/>
       <Image source={require('../assets/match1.png')} style={{width: '100%', objectFit: 'fill', marginBottom: 50}}/>
       <View style={{marginBottom: 40}}>
         {getItems().map(({icon, title}: PaywallItem, index: number) => {
@@ -90,7 +91,7 @@ const styles = StyleSheet.create({
   },
   itemTitle: {
     fontFamily: 'SF Pro Display',
-    fontWeight: 'regular',
+    fontWeight: 'normal',
     fontSize: 25,
     lineHeight: 30,
     marginRight: 20,

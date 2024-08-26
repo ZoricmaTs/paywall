@@ -2,17 +2,38 @@ import React from 'react';
 import {
   StyleSheet,
   View,
-  Text,
+  Text, Pressable,
 } from 'react-native';
+import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
+import {IconDefinition} from '@fortawesome/fontawesome-common-types';
+import {ViewStyle} from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
+export type HeaderType = {
+  icons: {
+    left?: IconDefinition,
+    right?: IconDefinition,
+  },
+  title?: string,
+  subtitle?: string,
+  style?: ViewStyle,
+  textColor?: string,
+  onPressLeft?: () => void,
+  onPressRight?: () => void,
+}
 
-export function Header({left, right, title, subtitle, style = {}}: {left?: any, right?: any, title?: string, subtitle?: string, style: any}) {
+export function Header({icons, title, subtitle, style, textColor, onPressLeft, onPressRight}: HeaderType) {
   return <View style={{...styles.headerContainer, ...style}}>
-    <View style={{width: 40, height: 40, alignItems: 'center', justifyContent: 'center'}}>{left}</View>
+    <Pressable style={styles.icon} onPress={onPressLeft}>
+      {icons.left && <FontAwesomeIcon size={24} icon={icons.left} style={{color: textColor}}/>}
+    </Pressable>
+
     <View style={{flex: 1, alignItems: 'center'}}>
-      {title && <Text style={styles.title}>{title}</Text>}
-      {subtitle && <Text>{subtitle}</Text>}
+      {title && <Text style={{...styles.title, color: textColor}}>{title}</Text>}
+      {subtitle && <Text style={{...styles.subtitle, color: textColor}}>{subtitle}</Text>}
     </View>
-    <View style={{width: 40, height: 40}}>{right}</View>
+
+    <Pressable style={styles.icon} onPress={onPressRight}>
+      {icons.right && <FontAwesomeIcon size={24} icon={icons.right} style={{color: textColor}}/>}
+    </Pressable>
   </View>
 }
 
@@ -34,5 +55,11 @@ const styles = StyleSheet.create({
     fontSize: 25,
     fontWeight: 'light',
     lineHeight: 30,
+  },
+  icon: {
+    width: 40,
+    height: 40,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });
